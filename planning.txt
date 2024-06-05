@@ -1,0 +1,9 @@
+User see list of hotels
+user book the hotel
+reservationTicket is generated
+
+
+Classes:
+User
+Hotel
+ReservationTicket
