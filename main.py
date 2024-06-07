@@ -38,6 +38,11 @@ class ReservationTicket:
         return content
 
 
+class SpaReservation(ReservationTicket):
+    def generate(self):
+        pass
+
+
 class CreditCard:
     def __init__(self, number):
         self.number = number
@@ -72,10 +77,15 @@ if hotel.available():
     if credit_card.validate(expire_date=expiration, holder_name=holder_name, cvc=cvc_number):
 
         if credit_card.authenticate(user_pass=password):
-            hotel.book()
-            name = input("Enter your name : ")
-            reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
-            print(reservation_ticket.generate())
+            spa_reservation = SpaReservation()
+            if spa_reservation.generate():
+                hotel.book()
+                name = input("Enter your name : ")
+                reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
+                print(reservation_ticket.generate())
+
+            else:
+                print("Sorry spa reservation has failed")
 
         else:
             print("Card authentication failed!")
