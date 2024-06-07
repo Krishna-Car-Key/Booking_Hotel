@@ -47,6 +47,11 @@ class CreditCard:
             return True
 
 
+class SecureCreditCard(CreditCard):
+    def authenticate(self):
+        pass
+
+
 print(df)
 print(df_cards)
 hotel_id = input("Enter hotel id: ")
@@ -59,12 +64,17 @@ if hotel.available():
     holder_name = input("Enter the card holder name: ").strip().upper()
     cvc_number = input("Enter your cvc number: ").strip()
 
-    credit_card = CreditCard(number=card_number)
+    credit_card = SecureCreditCard(number=card_number)
     if credit_card.validate(expire_date=expiration, holder_name=holder_name, cvc=cvc_number):
-        hotel.book()
-        name = input("Enter your name : ")
-        reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
-        print(reservation_ticket.generate())
+
+        if credit_card.authenticate():
+            hotel.book()
+            name = input("Enter your name : ")
+            reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
+            print(reservation_ticket.generate())
+
+        else:
+            print("Card authentication failed!")
 
     else:
         print("There is no such card info!")
