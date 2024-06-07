@@ -34,13 +34,21 @@ class ReservationTicket:
                 your booking name : {self.customer_name}
                 hotel booked : {self.hotel_object.name}
                 
-                Thanks For Booking With Us."""
+                Thanks For Booking With Us.\n"""
         return content
 
 
 class SpaReservation(ReservationTicket):
+
     def generate(self):
-        pass
+        content = f"""
+                Your Reservation of Spa is Successful!
+
+                your booking name : {self.customer_name}
+                entry code : {self.hotel_object.name}
+
+                Thanks For Booking With Us."""
+        return content
 
 
 class CreditCard:
@@ -77,15 +85,18 @@ if hotel.available():
     if credit_card.validate(expire_date=expiration, holder_name=holder_name, cvc=cvc_number):
 
         if credit_card.authenticate(user_pass=password):
-            spa_reservation = SpaReservation()
-            if spa_reservation.generate():
-                hotel.book()
-                name = input("Enter your name : ")
-                reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
-                print(reservation_ticket.generate())
+            hotel.book()
+            name = input("Enter your name : ")
+            reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
+            print(reservation_ticket.generate())
+
+            spa_ticket = SpaReservation(customer_name=name, hotel_object=hotel)
+            spa_conformation = input("Do you want spa reservation: ").strip().lower()
+            if spa_conformation == 'yes' or spa_conformation == "ok":
+                print(spa_ticket.generate())
 
             else:
-                print("Sorry spa reservation has failed")
+                print("Thanks for conformation!")
 
         else:
             print("Card authentication failed!")
