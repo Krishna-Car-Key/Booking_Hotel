@@ -22,6 +22,17 @@ class Hotel:
             return False
 
 
+class BookHotel(Hotel):
+    def book(self):
+        capacity = df.loc[df['id'] == self.hotel_id, 'capacity'].squeeze()
+        capacity = capacity - 1
+        df.loc[df['id'] == self.hotel_id, 'capacity'] = capacity
+        df.to_csv("hotels.csv", index=False)
+        if capacity == 0:
+            df.loc[df['id'] == self.hotel_id, 'available'] = 'no'
+            df.to_csv("hotels.csv", index=False)
+
+
 class ReservationTicket:
     def __init__(self, customer_name, hotel_object):
         self.customer_name = customer_name
@@ -71,7 +82,7 @@ class SecureCreditCard(CreditCard):
 print(df)
 print(df_cards)
 hotel_id = input("Enter hotel id: ")
-hotel = Hotel(hotel_id)
+hotel = BookHotel(hotel_id)
 
 if hotel.available():
 
